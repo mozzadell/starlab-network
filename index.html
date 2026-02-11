@@ -361,6 +361,7 @@
             
             'Debra Facktor': {
                 children: {
+                    'Starlab LLC': { relation: 'Board Member' },
                     'Airbus Defence and Space': { relation: 'Head of U.S. Space Systems' },
                     'Ball Aerospace': { relation: 'Former VP & GM' },
                     'Airbus OneWeb Satellites': { relation: 'Former board member' }
@@ -369,12 +370,14 @@
             
             'Mohamed Denden': {
                 children: {
+                    'Starlab LLC': { relation: 'Via Airbus' },
                     'Airbus Defence and Space': { relation: 'CFO U.S. Space & Defense' }
                 }
             },
             
             'Marc Steckling': {
                 children: {
+                    'Starlab LLC': { relation: 'Via Airbus' },
                     'Airbus Defence and Space': { relation: 'Head of Earth Observation' },
                     'Tesat-Spacecom': { relation: 'Former CEO' },
                     'DLR': { relation: 'Former dept head Berlin' }
@@ -406,7 +409,8 @@
                     'Moon to Mars': { relation: 'NASA initiative' },
                     'Ares I-X': { relation: 'Test flight vehicle' },
                     'Ball Aerospace': { relation: 'Major contractor' },
-                    'DLR': { relation: 'International partner' }
+                    'DLR': { relation: 'International partner' },
+                    'CACI': { relation: 'IT & mission support contractor' }
                 }
             },
             
@@ -619,7 +623,8 @@
             
             'CACI': {
                 children: {
-                    'Paul Schauer': { relation: 'Former VP Contracts' }
+                    'Paul Schauer': { relation: 'Former VP Contracts' },
+                    'NASA': { relation: 'IT & mission support services' }
                 }
             },
             
@@ -871,7 +876,7 @@
             
             const children = Object.entries(nodeData.children);
             const angleStep = (2 * Math.PI) / children.length;
-            const radius = 300;
+            const radius = 350;
             
             children.forEach(([name, info], i) => {
                 const angle = i * angleStep - Math.PI/2;
