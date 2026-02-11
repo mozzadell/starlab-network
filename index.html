@@ -82,7 +82,7 @@
 <body>
     <canvas id="stars-canvas"></canvas>
     <div id="header">
-        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH</h2>
+        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH v3.0</h2>
         <p style="font-size: 12px; color: #94a3b8; margin: 0;">Click any node to explore • Click background to reset • <span id="node-count"></span></p>
     </div>
     <div id="breadcrumb">
@@ -855,7 +855,7 @@
             
             const children = Object.entries(nodeData.children);
             const angleStep = (2 * Math.PI) / children.length;
-            const radius = 400;
+            const radius = 300;
             
             children.forEach(([name, info], i) => {
                 const angle = i * angleStep - Math.PI/2;
