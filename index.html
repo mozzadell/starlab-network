@@ -82,7 +82,7 @@
 <body>
     <canvas id="stars-canvas"></canvas>
     <div id="header">
-        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH v3.0</h2>
+        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH</h2>
         <p style="font-size: 12px; color: #94a3b8; margin: 0;">Click any node to explore • Click background to reset • <span id="node-count"></span></p>
     </div>
     <div id="breadcrumb">
@@ -204,7 +204,8 @@
                     'Janus Henderson': { relation: 'Investor' },
                     'Sumitomo Mitsui Trust Bank': { relation: 'Investor' },
                     'Seven Grand Managers': { relation: 'Investor' },
-                    'Mitsubishi Corporation': { relation: 'Investor' }
+                    'Mitsubishi Corporation': { relation: 'Investor' },
+                    'Texas Capital': { relation: 'Credit facility provider' }
                 }
             },
             
@@ -248,6 +249,7 @@
                     'European Service Module': { relation: 'Developed for Orion' },
                     'Automated Transfer Vehicle': { relation: 'Developed' },
                     'Bartolomeo': { relation: 'Developed' },
+                    'Tesat-Spacecom': { relation: 'Acquired subsidiary' },
                     'Airbus OneWeb Satellites': { relation: 'Joint venture' }
                 }
             },
@@ -402,7 +404,9 @@
                     'NASA Michoud Assembly Facility': { relation: 'NASA-owned facility' },
                     'Human Landing System': { relation: 'NASA program' },
                     'Moon to Mars': { relation: 'NASA initiative' },
-                    'Ares I-X': { relation: 'Test flight vehicle' }
+                    'Ares I-X': { relation: 'Test flight vehicle' },
+                    'Ball Aerospace': { relation: 'Major contractor' },
+                    'DLR': { relation: 'International partner' }
                 }
             },
             
@@ -431,6 +435,7 @@
                     'Bartolomeo': { relation: 'External payload platform' },
                     'Roll-Out Solar Arrays': { relation: 'Solar power system' },
                     'ICECubes': { relation: 'Payload hosting service' },
+                    'DLR': { relation: 'Columbus module partner' },
                     'Expedition 20': { relation: 'ISS mission 2009' }
                 }
             },
@@ -540,7 +545,8 @@
             
             'Hilton': {
                 children: {
-                    'Starlab LLC': { relation: 'Architecture & design partner' }
+                    'Starlab LLC': { relation: 'Architecture & design partner' },
+                    'Journey': { relation: 'Collaborates on crew experience' }
                 }
             },
             
@@ -586,7 +592,8 @@
             
             'Ball Aerospace': {
                 children: {
-                    'Debra Facktor': { relation: 'Former VP & GM' }
+                    'Debra Facktor': { relation: 'Former VP & GM' },
+                    'NASA': { relation: 'Major contractor for missions' }
                 }
             },
             
@@ -618,13 +625,16 @@
             
             'Tesat-Spacecom': {
                 children: {
-                    'Marc Steckling': { relation: 'Former CEO' }
+                    'Marc Steckling': { relation: 'Former CEO' },
+                    'Airbus Defence and Space': { relation: 'Acquired by Airbus' }
                 }
             },
             
             'DLR': {
                 children: {
-                    'Marc Steckling': { relation: 'Former dept head Berlin' }
+                    'Marc Steckling': { relation: 'Former dept head Berlin' },
+                    'ISS': { relation: 'Columbus module partner' },
+                    'NASA': { relation: 'Joint missions & research' }
                 }
             },
             
@@ -810,6 +820,12 @@
             'Seven Grand Managers': {
                 children: {
                     'Starlab LLC': { relation: 'Investor' }
+                }
+            },
+            
+            'Texas Capital': {
+                children: {
+                    'Starlab LLC': { relation: 'Credit facility provider' }
                 }
             },
             
