@@ -992,9 +992,9 @@
         function show(nodeName, addToHistory = true) {
             current = nodeName;
             
-            // Use replaceState to update URL without adding to browser history
+            // Use window.history.replaceState to update URL without adding to browser history
             const hash = nodeName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-            history.replaceState(null, '', '#' + hash);
+            window.history.replaceState(null, '', '#' + hash);
             
             // Update custom history
             if (addToHistory) {
