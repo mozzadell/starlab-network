@@ -96,7 +96,7 @@
 <body>
     <canvas id="stars-canvas"></canvas>
     <div id="header">
-        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH v4.0</h2>
+        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH</h2>
         <p style="font-size: 12px; color: #94a3b8; margin: 0;">Click any node to explore • Click background to reset • <span id="node-count"></span></p>
     </div>
     
@@ -875,8 +875,15 @@
         
         const g = svg.append('g');
         let current = 'Starlab LLC';
-        let history = ['Starlab LLC'];
+        
+        // Use sessionStorage for history persistence
+        let history = JSON.parse(sessionStorage.getItem('starlabHistory')) || ['Starlab LLC'];
         let isNavigatingBack = false;
+        
+        // Save history to sessionStorage whenever it changes
+        function saveHistory() {
+            sessionStorage.setItem('starlabHistory', JSON.stringify(history));
+        }
         
         const zoom = d3.zoom()
             .scaleExtent([0.5, 3])
@@ -985,14 +992,16 @@
         function show(nodeName, addToHistory = true) {
             current = nodeName;
             
-            // Update URL hash
-            window.location.hash = nodeName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            // Use replaceState to update URL without adding to browser history
+            const hash = nodeName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            history.replaceState(null, '', '#' + hash);
             
-            // Update history - only add if it's a new navigation forward
+            // Update custom history
             if (addToHistory) {
                 // Don't duplicate if clicking same node
                 if (history[history.length - 1] !== nodeName) {
                     history.push(nodeName);
+                    saveHistory();
                 }
             }
             
@@ -1109,10 +1118,11 @@
         
         svg.on('click', () => {
             history = ['Starlab LLC']; // Reset history when clicking background
+            saveHistory();
             show('Starlab LLC', false);
         });
         
-        // Handle URL hash on page load
+        // Handle initial page load from URL hash
         window.addEventListener('DOMContentLoaded', () => {
             const hash = window.location.hash.substring(1);
             if (hash) {
@@ -1126,63 +1136,6 @@
                 }
             }
             show('Starlab LLC');
-        });
-        
-        // Handle browser back/forward buttons
-        window.addEventListener('hashchange', () => {
-            console.log('HASHCHANGE EVENT FIRED - hash:', window.location.hash);
-            
-            if (isNavigatingBack) {
-                console.log('Ignoring hashchange - back button navigation');
-                return; // Ignore hashchange during back button navigation
-            }
-            
-            const hash = window.location.hash.substring(1);
-            if (!hash) {
-                console.log('No hash - resetting to Starlab');
-                history = ['Starlab LLC']; // Reset history only when going to root
-                show('Starlab LLC', false);
-                return;
-            }
-            const nodeName = Object.keys(data).find(node => 
-                node.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === hash
-            );
-            if (nodeName && data[nodeName]) {
-                // Don't add to history since this is from browser navigation
-                current = nodeName;
-                updateBreadcrumb();
-                const nodeData = data[nodeName];
-                if (!nodeData || !nodeData.children) return;
-                
-                const nodes = [{ id: nodeName, x: width/2, y: height/2 }];
-                const links = [];
-                const allNodes = [];
-                
-                const children = Object.entries(nodeData.children);
-                const angleStep = (2 * Math.PI) / children.length;
-                const radius = 375;
-                
-                children.forEach(([name, info], i) => {
-                    const angle = i * angleStep - Math.PI/2;
-                    const x = width/2 + radius * Math.cos(angle);
-                    const y = height/2 + radius * Math.sin(angle);
-                    nodes.push({ id: name, x, y });
-                    
-                    if (info.relation) {
-                        const relId = 'rel_' + i;
-                        const relX = width/2 + (x - width/2) * 0.5;
-                        const relY = height/2 + (y - height/2) * 0.5;
-                        allNodes.push({ id: relId, label: info.relation, x: relX, y: relY, isRel: true });
-                        links.push({ source: nodeName, target: relId });
-                        links.push({ source: relId, target: name });
-                    } else {
-                        links.push({ source: nodeName, target: name });
-                    }
-                });
-                
-                allNodes.push(...nodes);
-                render(allNodes, links);
-            }
         });
         
         // Display node count
