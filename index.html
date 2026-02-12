@@ -68,7 +68,7 @@
         }
         #breadcrumb {
             position: fixed;
-            top: 90px;
+            top: 150px;
             left: 20px;
             background: rgba(15, 20, 25, 0.95);
             border: 1px solid #1e293b;
@@ -76,17 +76,38 @@
             padding: 10px 15px;
             font-size: 12px;
             color: #94a3b8;
+            max-width: 600px;
+        }
+        .search-result-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #1e293b;
+            font-size: 11px;
+            color: #f9fafb;
+        }
+        .search-result-item:hover {
+            background: #1e293b;
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
         }
     </style>
 </head>
 <body>
     <canvas id="stars-canvas"></canvas>
     <div id="header">
-        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH v3.0</h2>
+        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH</h2>
         <p style="font-size: 12px; color: #94a3b8; margin: 0;">Click any node to explore • Click background to reset • <span id="node-count"></span></p>
     </div>
+    
+    <div id="search-container" style="position: fixed; top: 90px; right: 20px; z-index: 1000;">
+        <input type="text" id="search-box" placeholder="Search nodes..." style="padding: 8px 12px; background: rgba(15, 20, 25, 0.95); border: 1px solid #334155; border-radius: 6px; color: #f9fafb; font-size: 12px; width: 200px;">
+        <div id="search-results" style="display: none; position: absolute; top: 40px; right: 0; background: #0f1419; border: 1px solid #334155; border-radius: 6px; max-height: 300px; overflow-y: auto; width: 200px;"></div>
+    </div>
+    
     <div id="breadcrumb">
-        Currently viewing: <strong id="current">Starlab LLC</strong>
+        <button id="back-btn" style="display: none; padding: 4px 10px; margin-right: 10px; background: #334155; border: 1px solid #475569; color: #f9fafb; border-radius: 4px; cursor: pointer; font-size: 11px;">← Back</button>
+        <span id="breadcrumb-path">Starlab LLC</span>
     </div>
     <svg id="container"></svg>
     
@@ -855,6 +876,7 @@
         
         const g = svg.append('g');
         let current = 'Starlab LLC';
+        let history = ['Starlab LLC'];
         
         const zoom = d3.zoom()
             .scaleExtent([0.5, 3])
@@ -863,9 +885,92 @@
             });
         svg.call(zoom);
         
-        function show(nodeName) {
+        // Search functionality
+        const searchBox = document.getElementById('search-box');
+        const searchResults = document.getElementById('search-results');
+        
+        searchBox.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            const matches = Object.keys(data).filter(node => 
+                node.toLowerCase().includes(query)
+            ).slice(0, 10);
+            
+            if (matches.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            searchResults.innerHTML = matches.map(node => 
+                `<div class="search-result-item" onclick="navigateToNode('${node.replace(/'/g, "\\'")}')">${node}</div>`
+            ).join('');
+            searchResults.style.display = 'block';
+        });
+        
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-container')) {
+                searchResults.style.display = 'none';
+            }
+        });
+        
+        // Navigate to node function (accessible globally)
+        window.navigateToNode = function(nodeName) {
+            searchResults.style.display = 'none';
+            searchBox.value = '';
+            show(nodeName);
+        };
+        
+        // Back button
+        document.getElementById('back-btn').addEventListener('click', () => {
+            if (history.length > 1) {
+                history.pop(); // Remove current
+                const previous = history[history.length - 1];
+                show(previous, false); // false = don't add to history
+            }
+        });
+        
+        function updateBreadcrumb() {
+            const breadcrumbPath = document.getElementById('breadcrumb-path');
+            const backBtn = document.getElementById('back-btn');
+            
+            if (history.length > 1) {
+                backBtn.style.display = 'inline-block';
+                breadcrumbPath.innerHTML = history.map((node, i) => {
+                    if (i === history.length - 1) {
+                        return `<strong>${node}</strong>`;
+                    }
+                    return `<span style="cursor: pointer; color: #60a5fa; text-decoration: underline;" onclick="navigateToBreadcrumb(${i})">${node}</span>`;
+                }).join(' → ');
+            } else {
+                backBtn.style.display = 'none';
+                breadcrumbPath.innerHTML = `<strong>${current}</strong>`;
+            }
+        }
+        
+        window.navigateToBreadcrumb = function(index) {
+            history = history.slice(0, index + 1);
+            show(history[history.length - 1], false);
+        };
+        
+        function show(nodeName, addToHistory = true) {
             current = nodeName;
-            document.getElementById('current').textContent = nodeName;
+            
+            // Update URL hash
+            window.location.hash = nodeName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            
+            // Update history
+            if (addToHistory) {
+                if (history[history.length - 1] !== nodeName) {
+                    history.push(nodeName);
+                }
+            }
+            
+            updateBreadcrumb();
             
             const nodeData = data[nodeName];
             if (!nodeData || !nodeData.children) return;
@@ -976,7 +1081,70 @@
         }
         
         svg.on('click', () => show('Starlab LLC'));
-        show('Starlab LLC');
+        
+        // Handle URL hash on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                // Convert hash back to node name
+                const nodeName = Object.keys(data).find(node => 
+                    node.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === hash
+                );
+                if (nodeName && data[nodeName]) {
+                    show(nodeName);
+                    return;
+                }
+            }
+            show('Starlab LLC');
+        });
+        
+        // Handle browser back/forward buttons
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (!hash) {
+                show('Starlab LLC', false);
+                return;
+            }
+            const nodeName = Object.keys(data).find(node => 
+                node.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === hash
+            );
+            if (nodeName && data[nodeName]) {
+                // Don't add to history since this is from browser navigation
+                current = nodeName;
+                updateBreadcrumb();
+                const nodeData = data[nodeName];
+                if (!nodeData || !nodeData.children) return;
+                
+                const nodes = [{ id: nodeName, x: width/2, y: height/2 }];
+                const links = [];
+                const allNodes = [];
+                
+                const children = Object.entries(nodeData.children);
+                const angleStep = (2 * Math.PI) / children.length;
+                const radius = 375;
+                
+                children.forEach(([name, info], i) => {
+                    const angle = i * angleStep - Math.PI/2;
+                    const x = width/2 + radius * Math.cos(angle);
+                    const y = height/2 + radius * Math.sin(angle);
+                    nodes.push({ id: name, x, y });
+                    
+                    if (info.relation) {
+                        const relId = 'rel_' + i;
+                        const relX = width/2 + (x - width/2) * 0.5;
+                        const relY = height/2 + (y - height/2) * 0.5;
+                        allNodes.push({ id: relId, label: info.relation, x: relX, y: relY, isRel: true });
+                        links.push({ source: nodeName, target: relId });
+                        links.push({ source: relId, target: name });
+                    } else {
+                        links.push({ source: nodeName, target: name });
+                    }
+                });
+                
+                allNodes.push(...nodes);
+                render(allNodes, links);
+            }
+        });
         
         // Display node count
         const totalNodes = Object.keys(data).length;
