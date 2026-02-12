@@ -105,7 +105,8 @@
         <div id="search-results" style="display: none; position: absolute; top: 40px; right: 0; background: #0f1419; border: 1px solid #334155; border-radius: 6px; max-height: 300px; overflow-y: auto; width: 200px;"></div>
     </div>
     
-    <div id="breadcrumb" style="display: none;">
+    <div id="breadcrumb">
+        <button id="back-btn" style="padding: 6px 12px; background: #334155; border: 1px solid #475569; color: #f9fafb; border-radius: 4px; cursor: pointer; font-size: 11px;">← Back to Starlab</button>
     </div>
     <svg id="container"></svg>
     
@@ -1036,11 +1037,12 @@
                 });
         }
         
-        svg.on('click', () => {
-            history = ['Starlab LLC']; // Reset history when clicking background
-            saveHistory();
-            show('Starlab LLC', false);
+        // Back to Starlab button
+        document.getElementById('back-btn').addEventListener('click', () => {
+            show('Starlab LLC');
         });
+        
+        svg.on('click', () => show('Starlab LLC'));
         
         // Handle initial page load from URL hash
         window.addEventListener('DOMContentLoaded', () => {
