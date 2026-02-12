@@ -96,7 +96,7 @@
 <body>
     <canvas id="stars-canvas"></canvas>
     <div id="header">
-        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH</h2>
+        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH v4.0</h2>
         <p style="font-size: 12px; color: #94a3b8; margin: 0;">Click any node to explore • Click background to reset • <span id="node-count"></span></p>
     </div>
     
@@ -928,16 +928,17 @@
         // Back button
         document.getElementById('back-btn').addEventListener('click', () => {
             if (history.length > 1) {
+                // Set flag BEFORE changing hash
+                isNavigatingBack = true;
+                
                 history.pop(); // Remove current
                 const previous = history[history.length - 1];
                 
                 console.log('Back button - going to:', previous, 'History after pop:', history);
                 
-                // Manually render without calling show() to avoid history manipulation
-                isNavigatingBack = true;
                 current = previous;
                 
-                // Update URL
+                // Update URL - hashchange will be ignored due to flag
                 window.location.hash = previous.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
                 
                 updateBreadcrumb();
@@ -977,7 +978,11 @@
                 allNodes.push(...nodes);
                 render(allNodes, links);
                 
-                setTimeout(() => { isNavigatingBack = false; }, 100);
+                // Reset flag after render completes
+                setTimeout(() => { 
+                    isNavigatingBack = false;
+                    console.log('Reset isNavigatingBack flag');
+                }, 200);
             }
         });
         
