@@ -96,7 +96,7 @@
 <body>
     <canvas id="stars-canvas"></canvas>
     <div id="header">
-        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH v4.0</h2>
+        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH</h2>
         <p style="font-size: 12px; color: #94a3b8; margin: 0;">Click any node to explore • Click background to reset • <span id="node-count"></span></p>
     </div>
     
@@ -876,6 +876,7 @@
         const g = svg.append('g');
         let current = 'Starlab LLC';
         let history = ['Starlab LLC'];
+        let isNavigatingBack = false;
         
         const zoom = d3.zoom()
             .scaleExtent([0.5, 3])
@@ -927,9 +928,52 @@
         // Back button
         document.getElementById('back-btn').addEventListener('click', () => {
             if (history.length > 1) {
+                isNavigatingBack = true;
                 history.pop(); // Remove current
                 const previous = history[history.length - 1];
-                show(previous, false); // false = don't add to history
+                
+                // Update URL without triggering hashchange
+                window.location.hash = previous.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                
+                current = previous;
+                updateBreadcrumb();
+                
+                const nodeData = data[previous];
+                if (!nodeData || !nodeData.children) {
+                    isNavigatingBack = false;
+                    return;
+                }
+                
+                const nodes = [{ id: previous, x: width/2, y: height/2 }];
+                const links = [];
+                const allNodes = [];
+                
+                const children = Object.entries(nodeData.children);
+                const angleStep = (2 * Math.PI) / children.length;
+                const radius = 375;
+                
+                children.forEach(([name, info], i) => {
+                    const angle = i * angleStep - Math.PI/2;
+                    const x = width/2 + radius * Math.cos(angle);
+                    const y = height/2 + radius * Math.sin(angle);
+                    nodes.push({ id: name, x, y });
+                    
+                    if (info.relation) {
+                        const relId = 'rel_' + i;
+                        const relX = width/2 + (x - width/2) * 0.5;
+                        const relY = height/2 + (y - height/2) * 0.5;
+                        allNodes.push({ id: relId, label: info.relation, x: relX, y: relY, isRel: true });
+                        links.push({ source: previous, target: relId });
+                        links.push({ source: relId, target: name });
+                    } else {
+                        links.push({ source: previous, target: name });
+                    }
+                });
+                
+                allNodes.push(...nodes);
+                render(allNodes, links);
+                
+                isNavigatingBack = false;
             }
         });
         
@@ -1085,6 +1129,10 @@
         
         // Handle browser back/forward buttons
         window.addEventListener('hashchange', () => {
+            if (isNavigatingBack) {
+                return; // Ignore hashchange during back button navigation
+            }
+            
             const hash = window.location.hash.substring(1);
             if (!hash) {
                 show('Starlab LLC', false);
