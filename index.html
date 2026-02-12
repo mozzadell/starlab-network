@@ -992,13 +992,15 @@
             // Update URL hash
             window.location.hash = nodeName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
             
-            // Update history
+            // Update history - only add if it's a new navigation forward
             if (addToHistory) {
+                // Don't duplicate if clicking same node
                 if (history[history.length - 1] !== nodeName) {
                     history.push(nodeName);
                 }
             }
             
+            console.log('History:', history); // Debug
             updateBreadcrumb();
             
             const nodeData = data[nodeName];
