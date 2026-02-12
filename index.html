@@ -1130,6 +1130,8 @@
         
         // Handle browser back/forward buttons
         window.addEventListener('hashchange', () => {
+            console.log('HASHCHANGE EVENT FIRED - hash:', window.location.hash);
+            
             if (isNavigatingBack) {
                 console.log('Ignoring hashchange - back button navigation');
                 return; // Ignore hashchange during back button navigation
@@ -1137,6 +1139,7 @@
             
             const hash = window.location.hash.substring(1);
             if (!hash) {
+                console.log('No hash - resetting to Starlab');
                 history = ['Starlab LLC']; // Reset history only when going to root
                 show('Starlab LLC', false);
                 return;
