@@ -928,14 +928,18 @@
         // Back button
         document.getElementById('back-btn').addEventListener('click', () => {
             if (history.length > 1) {
-                isNavigatingBack = true;
                 history.pop(); // Remove current
                 const previous = history[history.length - 1];
                 
-                // Update URL without triggering hashchange
+                console.log('Back button - going to:', previous, 'History after pop:', history);
+                
+                // Manually render without calling show() to avoid history manipulation
+                isNavigatingBack = true;
+                current = previous;
+                
+                // Update URL
                 window.location.hash = previous.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
                 
-                current = previous;
                 updateBreadcrumb();
                 
                 const nodeData = data[previous];
@@ -973,7 +977,7 @@
                 allNodes.push(...nodes);
                 render(allNodes, links);
                 
-                isNavigatingBack = false;
+                setTimeout(() => { isNavigatingBack = false; }, 100);
             }
         });
         
@@ -1135,11 +1139,13 @@
         // Handle browser back/forward buttons
         window.addEventListener('hashchange', () => {
             if (isNavigatingBack) {
+                console.log('Ignoring hashchange - back button navigation');
                 return; // Ignore hashchange during back button navigation
             }
             
             const hash = window.location.hash.substring(1);
             if (!hash) {
+                history = ['Starlab LLC']; // Reset history only when going to root
                 show('Starlab LLC', false);
                 return;
             }
