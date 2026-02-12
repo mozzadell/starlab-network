@@ -106,8 +106,7 @@
     </div>
     
     <div id="breadcrumb">
-        <button id="back-btn" style="display: none; padding: 4px 10px; margin-right: 10px; background: #334155; border: 1px solid #475569; color: #f9fafb; border-radius: 4px; cursor: pointer; font-size: 11px;">← Back</button>
-        <span id="breadcrumb-path">Starlab LLC</span>
+        <button id="back-btn" style="display: none; padding: 6px 12px; background: #334155; border: 1px solid #475569; color: #f9fafb; border-radius: 4px; cursor: pointer; font-size: 11px;">← Back</button>
     </div>
     <svg id="container"></svg>
     
@@ -935,26 +934,12 @@
         });
         
         function updateBreadcrumb() {
-            const breadcrumbPath = document.getElementById('breadcrumb-path');
             const backBtn = document.getElementById('back-btn');
-            
-            if (history.length > 1) {
-                backBtn.style.display = 'inline-block';
-                breadcrumbPath.innerHTML = history.map((node, i) => {
-                    if (i === history.length - 1) {
-                        return `<strong>${node}</strong>`;
-                    }
-                    return `<span style="cursor: pointer; color: #60a5fa; text-decoration: underline;" onclick="navigateToBreadcrumb(${i})">${node}</span>`;
-                }).join(' → ');
-            } else {
-                backBtn.style.display = 'none';
-                breadcrumbPath.innerHTML = `<strong>${current}</strong>`;
-            }
+            backBtn.style.display = history.length > 1 ? 'inline-block' : 'none';
         }
         
         window.navigateToBreadcrumb = function(index) {
-            history = history.slice(0, index + 1);
-            show(history[history.length - 1], false);
+            // Removed - no longer needed
         };
         
         function show(nodeName, addToHistory = true) {
