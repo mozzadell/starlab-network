@@ -1111,7 +1111,10 @@
                 });
         }
         
-        svg.on('click', () => show('Starlab LLC'));
+        svg.on('click', () => {
+            history = ['Starlab LLC']; // Reset history when clicking background
+            show('Starlab LLC', false);
+        });
         
         // Handle URL hash on page load
         window.addEventListener('DOMContentLoaded', () => {
