@@ -886,3 +886,4 @@
         // Display node count
         const totalNodes = Object.keys(data).length;
         document.getElementById('node-count').textContent = `${totalNodes} nodes in graph`;
+        svg.on('click', () => show('Starlab LLC'));
