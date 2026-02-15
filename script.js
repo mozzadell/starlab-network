@@ -1,4 +1,60 @@
-// Graph data structure
+// Starry background
+        const starsCanvas = document.getElementById('stars-canvas');
+        const starsCtx = starsCanvas.getContext('2d');
+        
+        starsCanvas.width = window.innerWidth;
+        starsCanvas.height = window.innerHeight;
+        
+        const stars = [];
+        const starCount = 200;
+        
+        // Create stars
+        for (let i = 0; i < starCount; i++) {
+            stars.push({
+                x: Math.random() * starsCanvas.width,
+                y: Math.random() * starsCanvas.height,
+                radius: Math.random() * 1.5,
+                opacity: Math.random() * 0.8 + 0.2,
+                twinkleSpeed: Math.random() * 0.02 + 0.005,
+                twinkleDirection: Math.random() > 0.5 ? 1 : -1
+            });
+        }
+        
+        // Animate stars
+        function animateStars() {
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            
+            stars.forEach(star => {
+                // Twinkle effect
+                star.opacity += star.twinkleSpeed * star.twinkleDirection;
+                if (star.opacity >= 1 || star.opacity <= 0.2) {
+                    star.twinkleDirection *= -1;
+                }
+                
+                starsCtx.beginPath();
+                starsCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                starsCtx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                starsCtx.fill();
+            });
+            
+            requestAnimationFrame(animateStars);
+        }
+        
+        animateStars();
+        
+        // Resize handler
+        window.addEventListener('resize', () => {
+            starsCanvas.width = window.innerWidth;
+            starsCanvas.height = window.innerHeight;
+            
+            // Reposition stars
+            stars.forEach(star => {
+                star.x = Math.random() * starsCanvas.width;
+                star.y = Math.random() * starsCanvas.height;
+            });
+        });
+        
+        // Graph data structure
         const data = {
             'Starlab LLC': {
                 children: {
