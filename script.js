@@ -1,0 +1,888 @@
+// Graph data structure
+        const data = {
+            'Starlab LLC': {
+                children: {
+                    'Equity Owners': {},
+                    'Contracts': {},
+                    'Partners': {},
+                    'Investors': {},
+                    'People': {}
+                }
+            },
+            
+            'Equity Owners': {
+                children: {
+                    'Voyager Space': { relation: 'Equity owner & JV leader' },
+                    'Airbus Defence and Space': { relation: 'Equity owner' },
+                    'Mitsubishi Corporation': { relation: 'Equity owner' },
+                    'MDA Space': { relation: 'Equity owner' },
+                    'Space Applications Services': { relation: 'Equity owner' },
+                    'Palantir Technologies': { relation: 'Equity owner' }
+                }
+            },
+            
+            'Contracts': {
+                children: {
+                    'NASA': { relation: 'Commercial LEO Destinations' },
+                    'Texas Space Commission': { relation: 'Grant program' },
+                    'European Space Agency': { relation: 'Memorandum of Understanding' },
+                    'SpaceX': { relation: 'Starship launch contract' },
+                    'The Exploration Company': { relation: 'Pre-ordered 3 cargo missions' },
+                    'Mitsubishi Corporation': { relation: 'Reserved capacity' }
+                }
+            },
+            
+            'Partners': {
+                children: {
+                    'Northrop Grumman': { relation: 'Cargo resupply & autonomous docking' },
+                    'Hilton': { relation: 'Architecture & design' },
+                    'Ohio State University': { relation: 'AgTech research partner' },
+                    'Journey': { relation: 'Hospitality & crew experience' },
+                    'Balance Ophthalmics': { relation: 'SANS treatment solution' },
+                    'Vivace': { relation: 'Primary structure manufacturing' },
+                    'Saber Astronautics': { relation: 'Payload services partner' },
+                    'Redwire': { relation: 'Engineering & integration' },
+                    'Leidos': { relation: 'Assembly & testing provider' },
+                    'Auxilium Biotechnologies': { relation: '3D bioprinting & biofabrication' }
+                }
+            },
+            
+            'Investors': {
+                children: {
+                    'Space Applications Services': { relation: 'Investor' },
+                    'Janus Henderson': { relation: 'Investor' },
+                    'Sumitomo Mitsui Trust Bank': { relation: 'Investor' },
+                    'Seven Grand Managers': { relation: 'Investor' },
+                    'Mitsubishi Corporation': { relation: 'Investor' },
+                    'Texas Capital': { relation: 'Credit facility provider' }
+                }
+            },
+            
+            'People': {
+                children: {
+                    'Marshall Smith': { relation: 'CEO' },
+                    'Jim Bridenstine': { relation: 'Board Member' },
+                    'Bob Ess': { relation: 'President' },
+                    'Tim Kopra': { relation: 'Former CEO' },
+                    'Tom Ayres': { relation: 'General Counsel' },
+                    'Brad Henderson': { relation: 'CCO' },
+                    'Paul Schauer': { relation: 'CPO' },
+                    'Mohit Sharma': { relation: 'CFO' },
+                    'Debra Facktor': { relation: 'Via Airbus' },
+                    'Mohamed Denden': { relation: 'Via Airbus' },
+                    'Marc Steckling': { relation: 'Via Airbus' },
+                    'Issei Shinohara': { relation: 'Via Mitsubishi' }
+                }
+            },
+            
+            'Voyager Space': {
+                children: {
+                    'Starlab LLC': { relation: 'Equity owner & JV leader' },
+                    'Marshall Smith': { relation: 'Former CTO' },
+                    'Tom Ayres': { relation: 'Former Chief Legal Officer' },
+                    'Paul Schauer': { relation: 'EVP Integrated Operations' },
+                    'George Washington Carver Science Park': { relation: 'Owns facility' },
+                    'Ohio State University': { relation: 'Partner via GWC Park' },
+                    'ISS': { relation: 'Largest commercial user' }
+                }
+            },
+            
+            'Airbus Defence and Space': {
+                children: {
+                    'Starlab LLC': { relation: 'Equity owner & technical partner' },
+                    'Debra Facktor': { relation: 'Head of U.S. Space Systems' },
+                    'Mohamed Denden': { relation: 'CFO U.S. Space & Defense' },
+                    'Mohit Sharma': { relation: 'Head of M&A Finance' },
+                    'Marc Steckling': { relation: 'Head of Earth Observation' },
+                    'ISS Columbus Module': { relation: 'Developed' },
+                    'European Service Module': { relation: 'Developed for Orion' },
+                    'Automated Transfer Vehicle': { relation: 'Developed' },
+                    'Bartolomeo': { relation: 'Developed' },
+                    'Tesat-Spacecom': { relation: 'Acquired subsidiary' },
+                    'Airbus OneWeb Satellites': { relation: 'Joint venture' }
+                }
+            },
+            
+            'Mitsubishi Corporation': {
+                children: {
+                    'Starlab LLC': { relation: 'Equity owner & investor & reserved capacity' },
+                    'Issei Shinohara': { relation: 'VP & GM Aerospace' }
+                }
+            },
+            
+            'MDA Space': {
+                children: {
+                    'Starlab LLC': { relation: 'Equity owner & robotics provider' },
+                    'Canadarm': { relation: 'Developed robotic arm family' },
+                    'SKYMAKER': { relation: 'Robotics system' },
+                    'ISS': { relation: 'Provides robotics services' }
+                }
+            },
+            
+            'Space Applications Services': {
+                children: {
+                    'Starlab LLC': { relation: 'Equity owner & investor' },
+                    'ICECubes': { relation: 'ISS research service' }
+                }
+            },
+            
+            'Marshall Smith': {
+                children: {
+                    'Starlab LLC': { relation: 'CEO' },
+                    'Voyager Space': { relation: 'Former CTO' },
+                    'NASA': { relation: 'Former Deputy Associate Admin' },
+                    'SLS': { relation: 'Former director' },
+                    'Orion Spacecraft': { relation: 'Former director' },
+                    'Artemis Program': { relation: 'Cross-program systems engineering' },
+                    'Gateway Program': { relation: 'Former director' },
+                    'Human Landing System': { relation: 'Former director' }
+                }
+            },
+            
+            'Jim Bridenstine': {
+                children: {
+                    'Tulsa Air & Space Museum': { relation: 'Executive Director' },
+                    'Starlab LLC': { relation: 'Board Member' },
+                    'NASA': { relation: 'Former 13th Administrator' },
+                    'Artemis Program': { relation: 'Launched program as NASA Admin' },
+                    'Oklahoma 1st Congressional District': { relation: 'Former U.S. Representative' },
+                    'Armed Services Committee': { relation: 'Committee member' },
+                    'Science Space Technology Committee': { relation: 'Committee member' },
+                    'U.S. Navy': { relation: 'Former Navy pilot' }
+                }
+            },
+            
+            'Tim Kopra': {
+                children: {
+                    'Starlab LLC': { relation: 'Former CEO' },
+                    'NASA': { relation: 'Former astronaut' },
+                    'ISS': { relation: 'ISS engineer' },
+                    'Expedition 20': { relation: 'Flight engineer' },
+                    'U.S. Army': { relation: 'U.S. Army Colonel' }
+                }
+            },
+            
+            'Tom Ayres': {
+                children: {
+                    'Starlab LLC': { relation: 'General Counsel' },
+                    'Voyager Space': { relation: 'Former Chief Legal Officer' },
+                    'U.S. Space Force': { relation: 'First General Counsel' },
+                    'U.S. Air Force': { relation: '20th General Counsel' },
+                    'U.S. Army': { relation: 'Former Army Major General' }
+                }
+            },
+            
+            'Bob Ess': {
+                children: {
+                    'Starlab LLC': { relation: 'President' },
+                    'Venus Aerospace': { relation: 'Former President' },
+                    'Blue Origin': { relation: 'Former Senior Director' },
+                    'New Glenn': { relation: 'Former Senior Director' },
+                    'Orion Spacecraft': { relation: 'Avionics & Software Manager' },
+                    'Ares I-X': { relation: 'Program Manager' },
+                    'NASA': { relation: 'Former Program Manager' }
+                }
+            },
+            
+            'Brad Henderson': {
+                children: {
+                    'Starlab LLC': { relation: 'Chief Commercial Officer' },
+                    'Sierra Space': { relation: 'Former VP Space Habitation' },
+                    'LIFE Habitat': { relation: 'Worked on habitat' },
+                    'U.S. Army': { relation: 'Former U.S. Green Beret' }
+                }
+            },
+            
+            'Paul Schauer': {
+                children: {
+                    'Starlab LLC': { relation: 'Chief Procurement Officer' },
+                    'Voyager Space': { relation: 'EVP Integrated Operations' },
+                    'CACI': { relation: 'Former VP Contracts' }
+                }
+            },
+            
+            'Mohit Sharma': {
+                children: {
+                    'Starlab LLC': { relation: 'CFO' },
+                    'Airbus Defence and Space': { relation: 'Head of M&A Finance' }
+                }
+            },
+            
+            'Debra Facktor': {
+                children: {
+                    'Starlab LLC': { relation: 'Board Member' },
+                    'Airbus Defence and Space': { relation: 'Head of U.S. Space Systems' },
+                    'Ball Aerospace': { relation: 'Former VP & GM' },
+                    'Airbus OneWeb Satellites': { relation: 'Former board member' }
+                }
+            },
+            
+            'Mohamed Denden': {
+                children: {
+                    'Starlab LLC': { relation: 'Via Airbus' },
+                    'Airbus Defence and Space': { relation: 'CFO U.S. Space & Defense' }
+                }
+            },
+            
+            'Marc Steckling': {
+                children: {
+                    'Starlab LLC': { relation: 'Via Airbus' },
+                    'Airbus Defence and Space': { relation: 'Head of Earth Observation' },
+                    'Tesat-Spacecom': { relation: 'Former CEO' },
+                    'DLR': { relation: 'Former dept head Berlin' }
+                }
+            },
+            
+            'Issei Shinohara': {
+                children: {
+                    'Mitsubishi Corporation': { relation: 'VP & GM Aerospace' },
+                    'Starlab LLC': { relation: 'Board Member' }
+                }
+            },
+            
+            'NASA': {
+                children: {
+                    'Starlab LLC': { relation: 'Commercial LEO contract' },
+                    'Marshall Smith': { relation: 'Former Deputy Associate Admin' },
+                    'Jim Bridenstine': { relation: 'Former 13th Administrator' },
+                    'Tim Kopra': { relation: 'Former astronaut' },
+                    'Bob Ess': { relation: 'Former Program Manager' },
+                    'Artemis Program': { relation: 'NASA program' },
+                    'SLS': { relation: 'NASA program' },
+                    'Orion Spacecraft': { relation: 'NASA program' },
+                    'Gateway Program': { relation: 'NASA program' },
+                    'ISS': { relation: 'NASA program' },
+                    'Expedition 20': { relation: 'ISS mission' },
+                    'NASA Michoud Assembly Facility': { relation: 'NASA-owned facility' },
+                    'Human Landing System': { relation: 'NASA program' },
+                    'Moon to Mars': { relation: 'NASA initiative' },
+                    'Ares I-X': { relation: 'Test flight vehicle' },
+                    'Ball Aerospace': { relation: 'Major contractor' },
+                    'DLR': { relation: 'International partner' },
+                    'CACI': { relation: 'IT & mission support contractor' }
+                }
+            },
+            
+            'Artemis Program': {
+                children: {
+                    'NASA': { relation: 'NASA program' },
+                    'Marshall Smith': { relation: 'Former systems engineer' },
+                    'Jim Bridenstine': { relation: 'Launched as NASA Admin' },
+                    'Airbus Defence and Space': { relation: 'European Service Module' },
+                    'Northrop Grumman': { relation: 'Solid rocket boosters' }
+                }
+            },
+            
+            'ISS': {
+                children: {
+                    'NASA': { relation: 'NASA program' },
+                    'Voyager Space': { relation: 'Largest commercial user' },
+                    'MDA Space': { relation: 'Robotics provider' },
+                    'Northrop Grumman': { relation: 'Cargo resupply provider' },
+                    'Redwire': { relation: 'Roll-Out Solar Arrays' },
+                    'Tim Kopra': { relation: 'Former ISS engineer' },
+                    'ISS Columbus Module': { relation: 'European laboratory' },
+                    'Canadarm': { relation: 'Robotic system' },
+                    'Cygnus Spacecraft': { relation: 'Cargo vehicle' },
+                    'Automated Transfer Vehicle': { relation: 'Former cargo vehicle' },
+                    'Bartolomeo': { relation: 'External payload platform' },
+                    'Roll-Out Solar Arrays': { relation: 'Solar power system' },
+                    'ICECubes': { relation: 'Payload hosting service' },
+                    'DLR': { relation: 'Columbus module partner' },
+                    'Expedition 20': { relation: 'ISS mission 2009' }
+                }
+            },
+            
+            'Expedition 20': {
+                children: {
+                    'NASA': { relation: 'NASA mission' },
+                    'ISS': { relation: 'ISS mission 2009' },
+                    'Tim Kopra': { relation: 'Flight engineer' }
+                }
+            },
+            
+            'Orion Spacecraft': {
+                children: {
+                    'NASA': { relation: 'NASA program' },
+                    'Marshall Smith': { relation: 'Former director' },
+                    'Bob Ess': { relation: 'Former Avionics Manager' },
+                    'Airbus Defence and Space': { relation: 'European Service Module' },
+                    'European Service Module': { relation: 'Propulsion & power' },
+                    'Northrop Grumman': { relation: 'Launch abort system' }
+                }
+            },
+            
+            'SLS': {
+                children: {
+                    'NASA': { relation: 'NASA program' },
+                    'Marshall Smith': { relation: 'Former director' },
+                    'Northrop Grumman': { relation: 'Solid rocket boosters' }
+                }
+            },
+            
+            'Gateway Program': {
+                children: {
+                    'NASA': { relation: 'NASA program' },
+                    'Marshall Smith': { relation: 'Former director' }
+                }
+            },
+            
+            'George Washington Carver Science Park': {
+                children: {
+                    'Starlab LLC': { relation: 'Ground analog facility' },
+                    'Voyager Space': { relation: 'Owner' },
+                    'Ohio State University': { relation: 'AgTech research partner' }
+                }
+            },
+            
+            'Ohio State University': {
+                children: {
+                    'Starlab LLC': { relation: 'AgTech research partner' },
+                    'George Washington Carver Science Park': { relation: 'Partner at Voyager facility' },
+                    'Voyager Space': { relation: 'Partner via GWC Park' }
+                }
+            },
+            
+            'Vivace': {
+                children: {
+                    'Starlab LLC': { relation: 'Structure manufacturing lead' },
+                    'NASA Michoud Assembly Facility': { relation: 'Manufacturing operations' }
+                }
+            },
+            
+            'NASA Michoud Assembly Facility': {
+                children: {
+                    'Starlab LLC': { relation: 'Primary manufacturing facility' },
+                    'Vivace': { relation: 'Structure manufacturing lead' },
+                    'NASA': { relation: 'NASA-owned facility' }
+                }
+            },
+            
+            'Starlab Space GmbH': {
+                children: {
+                    'Starlab LLC': { relation: 'Wholly-owned European subsidiary' }
+                }
+            },
+            
+            'SpaceX': {
+                children: {
+                    'Starlab LLC': { relation: 'Launch provider' },
+                    'Starship': { relation: 'Launch vehicle for Starlab' }
+                }
+            },
+            
+            'Palantir Technologies': {
+                children: {
+                    'Starlab LLC': { relation: 'Equity owner & exclusive software supplier' }
+                }
+            },
+            
+            'Northrop Grumman': {
+                children: {
+                    'Starlab LLC': { relation: 'Cygnus cargo resupply partner' },
+                    'Cygnus Spacecraft': { relation: 'Manufacturer' },
+                    'ISS': { relation: 'ISS cargo resupply services' },
+                    'Artemis Program': { relation: 'Solid rocket booster provider' },
+                    'SLS': { relation: 'Solid rocket boosters' },
+                    'Orion Spacecraft': { relation: 'Launch abort system' }
+                }
+            },
+            
+            'Cygnus Spacecraft': {
+                children: {
+                    'Northrop Grumman': { relation: 'Manufacturer' },
+                    'Starlab LLC': { relation: 'Cargo resupply vehicle' },
+                    'ISS': { relation: 'ISS cargo resupply' }
+                }
+            },
+            
+            'Hilton': {
+                children: {
+                    'Starlab LLC': { relation: 'Architecture & design partner' },
+                    'Journey': { relation: 'Collaborates on crew experience' }
+                }
+            },
+            
+            'Journey': {
+                children: {
+                    'Starlab LLC': { relation: 'Hospitality & crew experience' },
+                    'Hilton': { relation: 'Works with Hilton on design' }
+                }
+            },
+            
+            'Redwire': {
+                children: {
+                    'Starlab LLC': { relation: 'Engineering & integration partner' },
+                    'ISS': { relation: 'Roll-Out Solar Arrays provider' },
+                    'Roll-Out Solar Arrays': { relation: 'Manufacturer' }
+                }
+            },
+            
+            'Leidos': {
+                children: {
+                    'Starlab LLC': { relation: 'Assembly & testing provider' }
+                }
+            },
+            
+            'Balance Ophthalmics': {
+                children: {
+                    'Starlab LLC': { relation: 'SANS treatment solution provider' }
+                }
+            },
+            
+            'Saber Astronautics': {
+                children: {
+                    'Starlab LLC': { relation: 'Payload services partner' }
+                }
+            },
+            
+            'Auxilium Biotechnologies': {
+                children: {
+                    'Starlab LLC': { relation: '3D bioprinting & biofabrication' },
+                    'AMP-1 3D Bioprinter': { relation: 'Proprietary bioprinter' }
+                }
+            },
+            
+            'Ball Aerospace': {
+                children: {
+                    'Debra Facktor': { relation: 'Former VP & GM' },
+                    'NASA': { relation: 'Major contractor for missions' }
+                }
+            },
+            
+            'Sierra Space': {
+                children: {
+                    'Brad Henderson': { relation: 'Former VP Space Habitation' },
+                    'LIFE Habitat': { relation: 'Expandable habitat module' }
+                }
+            },
+            
+            'Venus Aerospace': {
+                children: {
+                    'Bob Ess': { relation: 'Former President' }
+                }
+            },
+            
+            'Blue Origin': {
+                children: {
+                    'Bob Ess': { relation: 'Former Senior Director' },
+                    'New Glenn': { relation: 'Heavy-lift launch vehicle' }
+                }
+            },
+            
+            'CACI': {
+                children: {
+                    'Paul Schauer': { relation: 'Former VP Contracts' },
+                    'NASA': { relation: 'IT & mission support services' }
+                }
+            },
+            
+            'Tesat-Spacecom': {
+                children: {
+                    'Marc Steckling': { relation: 'Former CEO' },
+                    'Airbus Defence and Space': { relation: 'Acquired by Airbus' }
+                }
+            },
+            
+            'DLR': {
+                children: {
+                    'Marc Steckling': { relation: 'Former dept head Berlin' },
+                    'ISS': { relation: 'Columbus module partner' },
+                    'NASA': { relation: 'Joint missions & research' }
+                }
+            },
+            
+            'Airbus OneWeb Satellites': {
+                children: {
+                    'Airbus Defence and Space': { relation: 'Joint venture' },
+                    'Debra Facktor': { relation: 'Former board member' }
+                }
+            },
+            
+            'ISS Columbus Module': {
+                children: {
+                    'Airbus Defence and Space': { relation: 'Manufacturer' },
+                    'ISS': { relation: 'European laboratory module' }
+                }
+            },
+            
+            'European Service Module': {
+                children: {
+                    'Airbus Defence and Space': { relation: 'Manufacturer' },
+                    'Orion Spacecraft': { relation: 'Propulsion & power module' }
+                }
+            },
+            
+            'Automated Transfer Vehicle': {
+                children: {
+                    'Airbus Defence and Space': { relation: 'Manufacturer' },
+                    'ISS': { relation: 'Former cargo vehicle' }
+                }
+            },
+            
+            'Bartolomeo': {
+                children: {
+                    'Airbus Defence and Space': { relation: 'Developed' },
+                    'ISS': { relation: 'External payload platform' }
+                }
+            },
+            
+            'Canadarm': {
+                children: {
+                    'MDA Space': { relation: 'Manufacturer' },
+                    'ISS': { relation: 'Robotic arm system' }
+                }
+            },
+            
+            'SKYMAKER': {
+                children: {
+                    'MDA Space': { relation: 'Robotics system' }
+                }
+            },
+            
+            'Roll-Out Solar Arrays': {
+                children: {
+                    'Redwire': { relation: 'Manufacturer' },
+                    'ISS': { relation: 'Solar power system' }
+                }
+            },
+            
+            'AMP-1 3D Bioprinter': {
+                children: {
+                    'Auxilium Biotechnologies': { relation: 'Proprietary bioprinter' },
+                    'Starlab LLC': { relation: 'Orbital biofabrication system' }
+                }
+            },
+            
+            'LIFE Habitat': {
+                children: {
+                    'Sierra Space': { relation: 'Expandable habitat module' },
+                    'Brad Henderson': { relation: 'Worked on as VP' }
+                }
+            },
+            
+            'ICECubes': {
+                children: {
+                    'Space Applications Services': { relation: 'ISS research service' },
+                    'ISS': { relation: 'Payload hosting service' }
+                }
+            },
+            
+            'New Glenn': {
+                children: {
+                    'Blue Origin': { relation: 'Heavy-lift launch vehicle' },
+                    'Bob Ess': { relation: 'Former Senior Director' }
+                }
+            },
+            
+            'Ares I-X': {
+                children: {
+                    'NASA': { relation: 'Test flight vehicle' },
+                    'Bob Ess': { relation: 'Program Manager' }
+                }
+            },
+            
+            'Starship': {
+                children: {
+                    'SpaceX': { relation: 'Manufacturer' },
+                    'Starlab LLC': { relation: 'Launch vehicle' }
+                }
+            },
+            
+            'Human Landing System': {
+                children: {
+                    'NASA': { relation: 'NASA program' },
+                    'Marshall Smith': { relation: 'Former director' }
+                }
+            },
+            
+            'Moon to Mars': {
+                children: {
+                    'NASA': { relation: 'NASA initiative' },
+                    'Marshall Smith': { relation: 'Former director' }
+                }
+            },
+            
+            'U.S. Space Force': {
+                children: {
+                    'Tom Ayres': { relation: 'First General Counsel' }
+                }
+            },
+            
+            'U.S. Air Force': {
+                children: {
+                    'Tom Ayres': { relation: '20th General Counsel' }
+                }
+            },
+            
+            'U.S. Army': {
+                children: {
+                    'Tim Kopra': { relation: 'U.S. Army Colonel' },
+                    'Tom Ayres': { relation: 'Former Army Major General' },
+                    'Brad Henderson': { relation: 'Former U.S. Green Beret' }
+                }
+            },
+            
+            'U.S. Navy': {
+                children: {
+                    'Jim Bridenstine': { relation: 'Former Navy pilot' }
+                }
+            },
+            
+            'Oklahoma 1st Congressional District': {
+                children: {
+                    'Jim Bridenstine': { relation: 'Former U.S. Representative' }
+                }
+            },
+            
+            'Armed Services Committee': {
+                children: {
+                    'Jim Bridenstine': { relation: 'Committee member' }
+                }
+            },
+            
+            'Science Space Technology Committee': {
+                children: {
+                    'Jim Bridenstine': { relation: 'Committee member' }
+                }
+            },
+            
+            'Texas Space Commission': {
+                children: {
+                    'Starlab LLC': { relation: 'Grant recipient' }
+                }
+            },
+            
+            'European Space Agency': {
+                children: {
+                    'Starlab LLC': { relation: 'Memorandum of Understanding' }
+                }
+            },
+            
+            'Janus Henderson': {
+                children: {
+                    'Starlab LLC': { relation: 'Investor' }
+                }
+            },
+            
+            'Sumitomo Mitsui Trust Bank': {
+                children: {
+                    'Starlab LLC': { relation: 'Investor' }
+                }
+            },
+            
+            'Seven Grand Managers': {
+                children: {
+                    'Starlab LLC': { relation: 'Investor' }
+                }
+            },
+            
+            'Texas Capital': {
+                children: {
+                    'Starlab LLC': { relation: 'Credit facility provider' }
+                }
+            },
+            
+            'The Exploration Company': {
+                children: {
+                    'Starlab LLC': { relation: 'Pre-ordered 3 cargo missions' }
+                }
+            },
+            
+            'Tulsa Air & Space Museum': {
+                children: {
+                    'Jim Bridenstine': { relation: 'Executive Director' }
+                }
+            }
+        };
+        
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const svg = d3.select('#container')
+            .attr('width', width)
+            .attr('height', height);
+        
+        const g = svg.append('g');
+        let current = 'Starlab LLC';
+        
+        const zoom = d3.zoom()
+            .scaleExtent([0.5, 3])
+            .on('zoom', (event) => {
+                g.attr('transform', event.transform);
+            });
+        svg.call(zoom);
+        
+        // Search functionality
+        const searchBox = document.getElementById('search-box');
+        const searchResults = document.getElementById('search-results');
+        
+        searchBox.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            const matches = Object.keys(data).filter(node => 
+                node.toLowerCase().includes(query)
+            ).slice(0, 10);
+            
+            if (matches.length === 0) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            searchResults.innerHTML = matches.map(node => 
+                `<div class="search-result-item" onclick="navigateToNode('${node.replace(/'/g, "\\'")}')">${node}</div>`
+            ).join('');
+            searchResults.style.display = 'block';
+        });
+        
+        // Close search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#search-container')) {
+                searchResults.style.display = 'none';
+            }
+        });
+        
+        // Navigate to node function (accessible globally)
+        window.navigateToNode = function(nodeName) {
+            searchResults.style.display = 'none';
+            searchBox.value = '';
+            show(nodeName);
+        };
+        
+        function show(nodeName) {
+            current = nodeName;
+            
+            // Update URL hash
+            window.location.hash = nodeName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            
+            const nodeData = data[nodeName];
+            if (!nodeData || !nodeData.children) return;
+            
+            const nodes = [{ id: nodeName, x: width/2, y: height/2 }];
+            const links = [];
+            const allNodes = [];
+            
+            const children = Object.entries(nodeData.children);
+            const angleStep = (2 * Math.PI) / children.length;
+            const radius = 375;
+            
+            children.forEach(([name, info], i) => {
+                const angle = i * angleStep - Math.PI/2;
+                const x = width/2 + radius * Math.cos(angle);
+                const y = height/2 + radius * Math.sin(angle);
+                nodes.push({ id: name, x, y });
+                
+                if (info.relation) {
+                    const relId = 'rel_' + i;
+                    const relX = width/2 + (x - width/2) * 0.5;  // 50% of the way out
+                    const relY = height/2 + (y - height/2) * 0.5;
+                    allNodes.push({ id: relId, label: info.relation, x: relX, y: relY, isRel: true });
+                    links.push({ source: nodeName, target: relId });
+                    links.push({ source: relId, target: name });
+                } else {
+                    links.push({ source: nodeName, target: name });
+                }
+            });
+            
+            allNodes.push(...nodes);
+            render(allNodes, links);
+        }
+        
+        function render(nodes, links) {
+            g.selectAll('*').remove();
+            
+            g.selectAll('.link')
+                .data(links)
+                .enter()
+                .append('line')
+                .attr('class', 'link')
+                .attr('x1', d => nodes.find(n => n.id === d.source).x)
+                .attr('y1', d => nodes.find(n => n.id === d.source).y)
+                .attr('x2', d => nodes.find(n => n.id === d.target).x)
+                .attr('y2', d => nodes.find(n => n.id === d.target).y);
+            
+            const node = g.selectAll('.node')
+                .data(nodes)
+                .enter()
+                .append('g')
+                .attr('class', d => d.isRel ? 'node relationship-node' : 'node')
+                .attr('transform', d => `translate(${d.x},${d.y})`)
+                .on('click touchend', function(event, d) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (!d.isRel && data[d.id] && data[d.id].children) {
+                        show(d.id);
+                    }
+                });
+            
+            node.append('rect')
+                .attr('width', d => {
+                    if (d.isRel) {
+                        return Math.min(70, (d.label || '').length * 4.5);  // Smaller max width, tighter character spacing
+                    }
+                    return Math.max(100, (d.label || d.id).length * 6);
+                })
+                .attr('height', d => d.isRel ? 20 : 36)
+                .attr('x', d => {
+                    if (d.isRel) {
+                        return -Math.min(70, (d.label || '').length * 4.5) / 2;
+                    }
+                    return -Math.max(100, (d.label || d.id).length * 6) / 2;
+                })
+                .attr('y', d => d.isRel ? -10 : -18)
+                .attr('rx', 4);
+            
+            node.append('text')
+                .attr('dy', '0.35em')
+                .text(d => d.label || d.id)
+                .each(function(d) {
+                    if (!d.isRel && (d.id || '').length > 22) {
+                        const text = d3.select(this);
+                        const words = d.id.split(/\s+/);
+                        text.text(null);
+                        
+                        let line = [];
+                        let lineNum = 0;
+                        
+                        words.forEach(word => {
+                            line.push(word);
+                            if (line.join(' ').length > 18 && line.length > 1) {
+                                line.pop();
+                                text.append('tspan')
+                                    .attr('x', 0)
+                                    .attr('dy', lineNum === 0 ? '-0.4em' : '1.2em')
+                                    .text(line.join(' '));
+                                line = [word];
+                                lineNum++;
+                            }
+                        });
+                        text.append('tspan')
+                            .attr('x', 0)
+                            .attr('dy', lineNum === 0 ? '0em' : '1.2em')
+                            .text(line.join(' '));
+                    }
+                });
+        }
+        
+        // Handle initial page load from URL hash
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                // Convert hash back to node name
+                const nodeName = Object.keys(data).find(node => 
+                    node.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') === hash
+                );
+                if (nodeName && data[nodeName]) {
+                    show(nodeName);
+                    return;
+                }
+            }
+            show('Starlab LLC');
+        });
+        
+        // Display node count
+        const totalNodes = Object.keys(data).length;
+        document.getElementById('node-count').textContent = `${totalNodes} nodes in graph`;
