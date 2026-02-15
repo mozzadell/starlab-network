@@ -96,7 +96,7 @@
 <body>
     <canvas id="stars-canvas"></canvas>
     <div id="header">
-        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH</h2>
+        <h2 style="margin: 0 0 5px 0;">STARLAB ONTOLOGICAL NETWORK GRAPH v4.0</h2>
         <p style="font-size: 12px; color: #94a3b8; margin: 0;">Click any node to explore • <span id="node-count"></span></p>
     </div>
     
@@ -1038,19 +1038,21 @@
                 });
         }
         
-        // Back to Starlab button
-        const backBtn = document.getElementById('back-btn');
-        backBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            show('Starlab LLC');
-        });
-        backBtn.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            show('Starlab LLC');
-        });
-        
         // Handle initial page load from URL hash
         window.addEventListener('DOMContentLoaded', () => {
+            // Back to Starlab button
+            const backBtn = document.getElementById('back-btn');
+            if (backBtn) {
+                backBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    show('Starlab LLC');
+                });
+                backBtn.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    show('Starlab LLC');
+                });
+            }
+            
             const hash = window.location.hash.substring(1);
             if (hash) {
                 // Convert hash back to node name
